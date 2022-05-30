@@ -13,4 +13,5 @@ C:\사용자\\<사용자ID>\\.jupyter 폴더에 쥬피터 노트북 설정이 �
 
 .jupyter 폴더가 보이지 않으면 까만 화면에서 jupyter notebook --generate-config를 실행한다.
 
-
+## 자바 설치 후 java -version 명령 실행시 아래와 같은 에러가 발생되면 ext 폴더를 삭제한다.
+<JAVA_HOME>/lib/ext exists, extensions mechanism no longer supported; Use -classpath instead.  
