@@ -1,4 +1,4 @@
-web.xml¿¡ Ãß°¡ÇÑ´Ù.
+web.xmlÂ¿Â¡ ÃƒÃŸÂ°Â¡Ã‡Ã‘Â´Ã™.
 
 <filter>
 	<filter-name>encodingFilter</filter-name>
@@ -18,4 +18,4 @@ web.xml¿¡ Ãß°¡ÇÑ´Ù.
 <filter-mapping>
 	<filter-name>encodingFilter</filter-name>
 	<url-pattern>/*</url-pattern>                 
-</filter-mapping>
+</filter-mapping> 
