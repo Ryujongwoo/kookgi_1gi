@@ -1,0 +1,548 @@
+﻿1. Download Ubuntu 20.04 LTS  at the website
+2. Install Ubuntu 20.04 LTS on VirutalBox in Windows 10 guiding
+3. ID /PW 
+ neuavenue/hadoop3 (id/pw when installed instruction for a user in session 5,6)
+4. Once you login in Ubuntu 20.04 open the terminal and then type :
+
+
+sudo apt update
+[sudo] password for neuavenue: hadoop3
+
+
+5. Optional Installation : Install VirtualBox Guest Additions on Ubuntu 20.04 LTS which allows the user to use a lot of useful features of VirtualBox such as automatic VM window resizing, shared clipboard, shared folders with following command:
+
+
+sudo apt install virtualbox-guest-dkms virtualbox-guest-x11 virtualbox-guest-utils
+
+
+
+
+
+
+Installation Hadoop 3.x on Ubuntu – Standalone Operation (local mode)
+
+
+
+
+
+
+Step : Installation SSH and SSHD to avoid user’s password
+
+
+6. To be running to use the Hadoop scripts and manage remote Hadoop demons, ssh  must be installed and running sshd as the following command each line :
+
+
+sudo apt-get install ssh
+
+
+7. Type the password for the sudo user and then press Enter
+8. Press Enter after typing ‘Y’ to  continue with the SSH installation process.
+9. Install sshd on the Ubuntu operated system using the below command :
+
+
+sudo apt-get install pdsh
+
+
+10. After entering the password for the sudo user, press Enter to continue with the installation sshd process.
+
+
+11. If there is no exist the Nano using the text editor, update the apt repositories with the following commands :
+
+
+sudo apt update
+sudo apt install nano
+sudo apt install vim
+
+
+12. Optional] - jump to go to chapter 37 to download hadoop 3.2.1 and go back to chapter 13
+
+
+13. To open the .bashrc file in the nano editor, use the command :
+
+
+cd /home/neuavenue/
+ls -a
+sudo chmod -R 777 /home/neuavenue/.bashrc
+nano .bashrc
+
+
+
+
+14. Set ‘the PDSH_RCMD_TYPE=ssh’ environment variable to ssh at the end of the .bashrc file:
+
+
+export PDSH_RCMD_TYPE=ssh
+
+
+15. To save the changes, press Ctrl+X and then press ‘Y’ to exit nano.
+16. After updated, press at the prompt for this file being applied in Ubuntu OS : 
+
+source ~/.bashrc
+
+
+   17. To configure ssh, create a new key with the help of the following command:
+
+
+ssh-keygen -t rsa -P ""
+
+
+   18. Copy the contents of the public key to authorized key value.
+
+
+cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+
+
+   19. To examine the SSH setup by connecting to the localhost , type the following command:
+
+
+ssh localhost
+
+
+To continue connecting, type ‘yes’ and then press Enter in user’s keyboard
+
+
+   20. In order not to ask for the password, press following command for adding RSA to the list of known hosts:
+
+
+exit
+
+
+
+
+Prerequisites : Installation JAVA 1.8 
+
+
+   21. To update the source lists, type the following command :
+
+
+sudo apt-get update
+
+
+   22. Go to oracle website : 
+
+
+https://www.oracle.com/ca-en/java/technologies/javase/javase8-archive-downloads.html 
+
+
+   23. Click “Linux x64 Compressed Archive” in order to download the latest jdk 1.8 at the Downloads directory as the default.
+
+
+   24. Type in terminal Ubuntu 20.04 LTS as the following command :
+
+
+sudo mkdir /usr/lib/jvm
+cd /usr/lib/jvm
+
+
+   25. Extract  jdk 8.0 version in the terminal to the directory /usr/lib/jvm/ as java’s default location :
+
+
+sudo tar -xvzf ~/Downloads/ jdk-8u271-linux-x64.tar.gz
+
+
+   26. To edit the environment files with setting environment variables, type the following command:
+
+
+vim or vi /etc/environment
+
+
+
+
+   27. Update the existing PATH variable by adding after bin folders with colon “:” to separated jdk1.8.0_333
+
+
+   28. When environment file is trying to edit :
+
+
+vi /etc/environment
+
+
+   29. if environment file does not exist or could not find :
+
+
+sudo chmod -R 777 /etc/environment 
+
+
+   30.  After changing permissions using the chmod command in the Terminal:
+
+
+vi /etc/environment
+
+
+   31. (optional) To access another method for changing an environment file with editor tools as vim. Type this following command: 
+
+
+sudo apt install vim
+
+
+   32. After download, type this following command : 
+
+
+vim /etc/environment
+
+
+   33. Environment file should be similar to this text :
+
+
+PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/jvm/jdk1.8.0_333/bin:/usr/lib/jvm/jdk1.8.0_333/db/bin:/usr/lib/jvm/jdk1.8.0_333/jre/bin"
+J2SDKDIR="/usr/lib/jvm/jdk1.8.0_333"
+J2REDIR="/usr/lib/jvm/jdk1.8.0_333/jre”
+JAVA_HOME="/usr/lib/jvm/jdk1.8.0_333"
+DERBY_HOME="/usr/lib/jvm/jdk1.8.0_333/db"
+
+
+   34. Save the environment file and then close these files
+   35. Use update-alternatives to inform Ubuntu about the installed java paths with the following command to inform Ubuntu about the installed location:
+
+
+ sudo update-alternatives --install "/usr/bin/java" "java" "/usr/lib/jvm/jdk1.8.0_333/bin/java" 0
+ sudo update-alternatives --install "/usr/bin/javac" "javac"  "/usr/lib/jvm/jdk1.8.0_333/bin/javac" 0
+ sudo update-alternatives --set java /usr/lib/jvm/jdk1.8.0_333/bin/java
+ sudo update-alternatives --set javac /usr/lib/jvm/jdk1.8.0_333/bin/javac
+
+
+   36. As it provided two command type to give the location of java and javac to setup verification
+
+
+update-alternatives --list java
+update-alternatives --list javac
+
+
+   37. Type this command ‘java -version’ to output which should resemble the following
+
+
+java version "1.8.0_271"
+Java(TM) SE Runtime Environment (build 1.8.0_271-b09)
+Java HotSpot(TM) 64-Bit Server VM (build 25.271-b09, mixed mode)
+
+
+
+
+   38. Open the Ubuntu and then open the firefox web browser to download Apache Hadoop 3.2.1 which represents a point of API stability and quality considering production-ready  to locate the Hadoop tar file in Home folder as well as to download hadoop 3.1.2 archive file using below command:
+
+
+cd ~
+
+
+wget https://downloads.apache.org/hadoop/common/hadoop-3.2.1/hadoop-3.2.1.tar.gz 
+
+
+ls
+
+
+   39. To extract the hadoop-3.2.1.tar.gz file using the below command :
+
+
+
+
+ls or ls hadoop-3.2.1.tar.gz 
+tar zxf hadoop-3.2.1.tar.gz
+ls or ls hadoop-3.2.1
+
+
+   40. Rename hadoop-3.2.1.tar.gz file as hadoop for ease of use
+
+
+mv hadoop-3.2.1 hadoop
+
+
+   41.  Type this command in command line to set JAVA_HOME: 
+
+
+nano ~/hadoop/etc/hadoop/hadoop-env.sh
+ 
+   42. Type this command in command line: 
+
+
+export JAVA_HOME=/usr/lib/jvm/jdk1.8.0_333
+
+
+   43. To save the changed you have made to export java home dir, press Ctrl+O, and then press enter key and at the same time press Ctrl+X and also press ‘Y’ if need
+
+
+How to setup Hadoop Configuration Files
+
+
+   44. Open nano editor with this command :
+
+
+nano ~/hadoop/etc/hadoop/core-site.xml
+
+
+   45. Put this sentence for setting hadoop configuration directory
+
+
+<configuration>
+    <property>
+        <name>fs.defaultFS</name>
+        <value>hdfs://localhost:9000</value>
+    </property>
+    <property>
+        <name>hadoop.tmp.dir</name>
+        <value>/home/neuavenue/hdata</value> <!--  please specify a location where you have Read Write privileges -->
+    </property>
+</configuration>
+
+
+   46. Go to the home/neuavenue/hadoop  directory and then type following command:
+
+
+mkdir -p /home/neuavenue/hadoop/hdfs/namenode 
+mkdir -p /home/neuavenue/hadoop/hdfs/datanode
+
+
+
+
+   47. To open the hdfs-site.xml file in the nano file, type this command :
+
+
+nono ~/hadoop/etc/hadoop/hdfs-site.xml
+
+
+   48. Add the following entries in hdfs-site xml file
+
+
+<configuration>
+    <property>
+        <name>dfs.replication</name>
+        <value>1</value>
+    </property>
+
+
+   <property>
+  <name>dfs.name.dir</name>
+    <value>file:///home/neuavenue/hadoop/hdfs/namenode</value>
+</property>
+
+
+<property>
+  <name>dfs.data.dir</name>
+    <value>file:///home/neuavenue/hadoop/hdfs/datanode</value>
+</property>
+
+
+</configuration>
+
+
+   49. To open the mapred-site xml file in the directory of mapred-site.xml type this command:
+
+
+
+
+<configuration>
+    <property>
+        <name>mapreduce.framework.name</name>
+        <value>yarn</value>
+    </property>
+<property>
+ <name>yarn.app.mapreduce.am.env</name>
+ <value>HADOOP_MAPRED_HOME=/home/neuavenue/hadoop</value>
+</property>
+<property>
+ <name>mapreduce.map.env</name>
+ <value>HADOOP_MAPRED_HOME=/home/neuavenue/hadoop</value>
+</property>
+<property>
+ <name>mapreduce.reduce.env</name>
+ <value>HADOOP_MAPRED_HOME=/home/neuavenue/hadoop</value>
+</property>
+</configuration>
+
+
+   50. To edit the yarn-site.xml , type this command :
+
+
+nano ~/hadoop/etc/hadoop/yarn-site.xml
+
+
+   51. Add this following lines in the core yarn-site.xml
+
+
+<configuration>
+    <property>
+        <name>yarn.nodemanager.aux-services</name>
+        <value>mapreduce_shuffle</value>
+    </property>
+    <property>
+        <name>yarn.nodemanager.aux-services.mapreduce.shuffle.class</name>
+        <value>org.apache.hadoop.mapred.ShuffleHandler</value>
+    </property> 
+</configuration>
+
+
+   52. Type ‘nano .bashrc’ in the command line  at the home directory  (on neuavenue account)
+
+
+   53. Edit this following line at the bottom of line in the .bashrc file at the home directory
+
+
+nano /home/neuavenue/.bashrc
+
+
+
+
+export HADOOP_HOME="/home/neuavenue/hadoop"
+export PATH=$PATH:$HADOOP_HOME/bin
+export PATH=$PATH:$HADOOP_HOME/sbin 
+export HADOOP_MAPRED_HOME=${HADOOP_HOME}
+export HADOOP_COMMON_HOME=${HADOOP_HOME}
+export HADOOP_HDFS_HOME=${HADOOP_HOME}
+export YARN_HOME=${HADOOP_HOME}
+
+
+   54. To exit the nano editor after saving the changes the user has made in the .bashrc file, Ctrl+X and the press ‘Y’ to exit the editor with saving.
+
+
+
+
+   55. After finishing appending bashrc file to set environment variable uses, apply the changes in the current running environment
+
+
+source ~/.bashrc
+
+
+   56. Go to the home/neuavenue/hadoop directory and then  type ‘bin/hdfs namenode -format’. It will format HDFS which can be done using namenode before starting Hadoop using the command
+
+
+bin/hdfs namenode -format
+
+
+   57. Type ‘sbin/start-dfs.sh’ to start the HDFS services on the hadoop home directory (home/neuavenue/hadoop) and to start namenode daemon and datanode daemon
+
+
+sbin/start-dfs.sh
+
+
+
+
+   58. Type jps on the hadoop home directory if it not working, just exit terminal mode and then come back to the terminal
+
+
+jps
+
+
+16787 Jps
+16426 DataNode
+16605 SecondaryNameNode
+16301 NameNode
+
+
+
+
+   59. Start the following command : 
+
+
+‘bin/hdfs namenode -format’ or sbin/start-dfs.sh
+
+
+   60. Check whether all the hadoop processes are running or not with command as ‘jps’ 
+
+
+   61. Open the HDFS web console with command as localhost:9870 one the web browser
+   62. To Start the Yarn services, type the following command : ‘sbin/start-yarn.sh’
+
+
+sbin/start-yarn.sh
+
+
+   63. Type jps where yarn process is running
+
+
+jps
+
+
+   64. If there is no datanode with servicing the jps command , please try to type the command line start-all.sh
+
+
+start-all.sh
+
+
+   65. Type the following command:
+
+
+hadoop datanode
+
+
+   66. Enter Terminal return after exiting, type command :
+
+
+hdfs namenode -format
+start-dfs.sh
+start-yarn.sh
+
+
+   67. Enter command to verify all the hadoop services and daemons are started successfully
+        jps
+
+
+======= output result line ====
+ 3168 NameNode
+ 3297 DataNode
+ 4051 Jps
+ 3747 ResourceManager
+ 3880 NodeManager
+ 3485 SecondaryNameNode
+
+
+   68. To check the current hadoop version you can use below command
+
+
+hadoop version / hdfs version
+
+
+Start Hadoop Cluster
+
+
+   69. Start NameNode daemon and DataNode daemon
+
+
+sbin/start-dfs.sh
+
+
+or
+
+
+cd $HADOOP_HOME/sbin/
+./start-dfs.sh
+./start-yarn.sh
+
+
+Access Hadoop Services (NameNode/Cluster/DataNode) in Browser
+
+
+   70. Open the web interface for the Namenode by default at the following address :
+
+
+http://localhost:9870 or http://neuavenue:9870 
+
+
+Instead of localhost, the user can input specific address from secondary name node as 
+
+
+“http://neuavenue:9870”
+
+
+
+
+   71. To get the information about the cluster and all applications, access host- name and port 8042 with this url address :
+
+
+“http://neuavenue:8042”
+
+
+
+
+   72. To get the details about hadoop node (datanode), access hostname and port 9864 in search of getting DataNode and block pools, etc.
+
+
+“http://neuavenue:9864”
+
+
+   73.  To shutdown Dfs and Yarn daemons after finishing an exploration to the Hadoop Journal 
+
+
+cd /home/neuavenue/hadoop
+
+
+sbin/stop-yarn.sh
+sbin/stop-dfs.sh
