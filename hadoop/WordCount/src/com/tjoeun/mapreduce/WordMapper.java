@@ -15,6 +15,7 @@ public class WordMapper extends Mapper<LongWritable, Text, Text, IntWritable> {
 
 //	iKey: 숫자, ivalue: 1라인의 문장, context: map 과정의 결과를 저장한다.
 	public void map(LongWritable ikey, Text ivalue, Context context) throws IOException, InterruptedException {
+		logger.info("ikey: " + ikey + ", ivalue: " + ivalue);
 		// hadoop 문자열 타입인 Text 타입의 객체를 String 타입으로 변경한 후 공백을 경계로 분할해 배열에 단어별로 저장한다.
 		String line = ivalue.toString();
 		String words[] = line.split(" ");
